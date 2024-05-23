@@ -1,4 +1,4 @@
-admin	CREATE TABLE `admin` (
+CREATE TABLE `admin` (
  `admin_id` int(11) NOT NULL,
  `user_id` int(11) NOT NULL,
  PRIMARY KEY (`admin_id`),
@@ -7,7 +7,7 @@ admin	CREATE TABLE `admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 
-belongs	CREATE TABLE `belongs` (
+CREATE TABLE `belongs` (
  `recipe_id` int(11) NOT NULL,
  `meal_id` int(11) NOT NULL,
  PRIMARY KEY (`recipe_id`,`meal_id`),
@@ -17,7 +17,7 @@ belongs	CREATE TABLE `belongs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 
-chef	CREATE TABLE `chef` (
+CREATE TABLE `chef` (
  `chef_id` int(11) NOT NULL,
  `first_name` varchar(45) NOT NULL,
  `last_name` varchar(45) NOT NULL,
@@ -35,7 +35,7 @@ chef	CREATE TABLE `chef` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 
-choose_chef	CREATE TABLE `choose_chef` (
+CREATE TABLE `choose_chef` (
  `choose_chef_id` int(11) NOT NULL AUTO_INCREMENT,
  `episode_id` int(11) NOT NULL,
  `chef_id` int(11) NOT NULL,
@@ -46,8 +46,8 @@ choose_chef	CREATE TABLE `choose_chef` (
  CONSTRAINT `episode_id_fk` FOREIGN KEY (`episode_id`) REFERENCES `episode` (`episode_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=6437 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
-
-choose_judge	CREATE TABLE `choose_judge` (
+ 
+CREATE TABLE `choose_judge` (
  `choose_judge_id` int(11) NOT NULL AUTO_INCREMENT,
  `episode_id` int(11) NOT NULL,
  `judge_id` int(11) NOT NULL,
@@ -60,7 +60,7 @@ choose_judge	CREATE TABLE `choose_judge` (
 ) ENGINE=InnoDB AUTO_INCREMENT=718 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 
-choose_recipe	CREATE TABLE `choose_recipe` (
+CREATE TABLE `choose_recipe` (
  `choose_recipe_id` int(11) NOT NULL AUTO_INCREMENT,
  `episode_id` int(11) NOT NULL,
  `recipe_id` int(11) NOT NULL,
@@ -72,7 +72,7 @@ choose_recipe	CREATE TABLE `choose_recipe` (
 ) ENGINE=InnoDB AUTO_INCREMENT=993 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 
-competition	CREATE TABLE `competition` (
+CREATE TABLE `competition` (
  `competition_id` int(11) NOT NULL,
  `number_of_episodes` int(2) NOT NULL,
  `year` year(4) NOT NULL,
@@ -80,7 +80,7 @@ competition	CREATE TABLE `competition` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 
-episode	CREATE TABLE `episode` (
+CREATE TABLE `episode` (
  `episode_id` int(11) NOT NULL,
  `competition_id` int(11) NOT NULL,
  `number` int(11) NOT NULL,
@@ -91,7 +91,7 @@ episode	CREATE TABLE `episode` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 
-equipment	CREATE TABLE `equipment` (
+CREATE TABLE `equipment` (
  `equipment_id` int(11) NOT NULL,
  `name` varchar(45) NOT NULL,
  `instruction` text NOT NULL,
@@ -99,7 +99,7 @@ equipment	CREATE TABLE `equipment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 
-food_category	CREATE TABLE `food_category` (
+CREATE TABLE `food_category` (
  `category_id` int(11) NOT NULL,
  `name` varchar(45) NOT NULL,
  `description` text NOT NULL,
@@ -107,7 +107,7 @@ food_category	CREATE TABLE `food_category` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 
-ingredient	CREATE TABLE `ingredient` (
+CREATE TABLE `ingredient` (
  `ingredient_id` int(11) NOT NULL,
  `name` varchar(45) NOT NULL,
  `category_id` int(11) NOT NULL,
@@ -118,7 +118,7 @@ ingredient	CREATE TABLE `ingredient` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 
-judge	CREATE TABLE `judge` (
+CREATE TABLE `judge` (
  `judge_id` int(11) NOT NULL,
  `first_name` varchar(45) NOT NULL,
  `last_name` varchar(45) NOT NULL,
@@ -127,14 +127,14 @@ judge	CREATE TABLE `judge` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 
-meal_type	CREATE TABLE `meal_type` (
+CREATE TABLE `meal_type` (
  `meal_id` int(11) NOT NULL,
  `name` varchar(45) NOT NULL,
  PRIMARY KEY (`meal_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 
-nutritionalinfo	CREATE TABLE `nutritionalinfo` (
+CREATE TABLE `nutritionalinfo` (
  `nutritional_id` int(11) NOT NULL,
  `recipe_id` int(11) NOT NULL,
  `fat_per_seving` int(11) NOT NULL,
@@ -147,7 +147,7 @@ nutritionalinfo	CREATE TABLE `nutritionalinfo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 
-recipe	CREATE TABLE `recipe` (
+CREATE TABLE `recipe` (
  `recipe_id` int(11) NOT NULL,
  `name` varchar(45) NOT NULL,
  `description` text NOT NULL,
@@ -164,7 +164,7 @@ recipe	CREATE TABLE `recipe` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 
-recipe_chef	CREATE TABLE `recipe_chef` (
+CREATE TABLE `recipe_chef` (
  `recipe_chef_id` int(11) NOT NULL AUTO_INCREMENT,
  `episode_id` int(11) NOT NULL,
  `chef_id` int(11) NOT NULL,
@@ -179,7 +179,7 @@ recipe_chef	CREATE TABLE `recipe_chef` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1024 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 
-recipe_equipment	CREATE TABLE `recipe_equipment` (
+CREATE TABLE `recipe_equipment` (
  `recipe_id` int(11) NOT NULL,
  `equipment_id` int(11) NOT NULL,
  PRIMARY KEY (`recipe_id`,`equipment_id`),
@@ -189,7 +189,7 @@ recipe_equipment	CREATE TABLE `recipe_equipment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 
-recipe_ingredient	CREATE TABLE `recipe_ingredient` (
+CREATE TABLE `recipe_ingredient` (
  `recipe_id` int(11) NOT NULL,
  `ingredient_id` int(11) NOT NULL,
  PRIMARY KEY (`recipe_id`,`ingredient_id`),
@@ -199,7 +199,7 @@ recipe_ingredient	CREATE TABLE `recipe_ingredient` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 
-recipe_section	CREATE TABLE `recipe_section` (
+CREATE TABLE `recipe_section` (
  `recipe_id` int(11) NOT NULL,
  `section_id` int(11) NOT NULL,
  PRIMARY KEY (`recipe_id`,`section_id`),
@@ -209,7 +209,7 @@ recipe_section	CREATE TABLE `recipe_section` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 
-recipe_step	CREATE TABLE `recipe_step` (
+CREATE TABLE `recipe_step` (
  `recipe_id` int(11) NOT NULL,
  `step_id` int(11) NOT NULL,
  PRIMARY KEY (`recipe_id`,`step_id`),
@@ -219,7 +219,7 @@ recipe_step	CREATE TABLE `recipe_step` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 
-recipe_tag	CREATE TABLE `recipe_tag` (
+CREATE TABLE `recipe_tag` (
  `recipe_id` int(11) NOT NULL,
  `tag_id` int(11) NOT NULL,
  PRIMARY KEY (`recipe_id`,`tag_id`),
@@ -229,7 +229,7 @@ recipe_tag	CREATE TABLE `recipe_tag` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 
-recipe_tips	CREATE TABLE `recipe_tips` (
+CREATE TABLE `recipe_tips` (
  `recipe_id` int(11) NOT NULL,
  `tips_id` int(11) NOT NULL,
  PRIMARY KEY (`recipe_id`,`tips_id`),
@@ -239,7 +239,7 @@ recipe_tips	CREATE TABLE `recipe_tips` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 
-scoring	CREATE TABLE `scoring` (
+CREATE TABLE `scoring` (
  `scoring_id` int(11) NOT NULL AUTO_INCREMENT,
  `recipe_chef_id` int(11) NOT NULL,
  `judge_id` int(11) NOT NULL,
@@ -252,7 +252,7 @@ scoring	CREATE TABLE `scoring` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4096 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 
-section	CREATE TABLE `section` (
+CREATE TABLE `section` (
  `section_id` int(11) NOT NULL,
  `name` varchar(45) NOT NULL,
  `description` text NOT NULL,
@@ -260,28 +260,28 @@ section	CREATE TABLE `section` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 
-step	CREATE TABLE `step` (
+CREATE TABLE `step` (
  `step_id` int(11) NOT NULL,
  `description` text NOT NULL,
  PRIMARY KEY (`step_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 
-tag	CREATE TABLE `tag` (
+CREATE TABLE `tag` (
  `tag_id` int(11) NOT NULL,
  `description` text NOT NULL,
  PRIMARY KEY (`tag_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 
-tips	CREATE TABLE `tips` (
+CREATE TABLE `tips` (
  `tips_id` int(11) NOT NULL,
  `description` text NOT NULL,
  PRIMARY KEY (`tips_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 
-user	CREATE TABLE `user` (
+CREATE TABLE `user` (
  `user_id` int(11) NOT NULL,
  `username` varchar(15) NOT NULL,
  `password` varchar(15) NOT NULL,
