@@ -1,3 +1,41 @@
+DROP TABLE IF EXISTS `admin`;
+DROP TABLE IF EXISTS `belongs`;
+DROP TABLE IF EXISTS `chef`;
+DROP TABLE IF EXISTS `choose_chef`;
+DROP TABLE IF EXISTS `choose_judge`;
+DROP TABLE IF EXISTS `choose_recipe`;
+DROP TABLE IF EXISTS `competition`;
+DROP TABLE IF EXISTS `episode`;
+DROP TABLE IF EXISTS `equipment`;
+DROP TABLE IF EXISTS `food_category`;
+DROP TABLE IF EXISTS `ingredient`;
+DROP TABLE IF EXISTS `judge`;
+DROP TABLE IF EXISTS `meal_type`;
+DROP TABLE IF EXISTS `nutritionalinfo`;=
+DROP TABLE IF EXISTS `recipe`;
+DROP TABLE IF EXISTS `recipe_chef`;
+DROP TABLE IF EXISTS `recipe_equipment`;
+DROP TABLE IF EXISTS `recipe_ingredient`;
+DROP TABLE IF EXISTS `recipe_section`;
+DROP TABLE IF EXISTS `recipe_step`;
+DROP TABLE IF EXISTS `recipe_tag`;
+DROP TABLE IF EXISTS `recipe_tips`;
+DROP TABLE IF EXISTS `scoring`;
+DROP TABLE IF EXISTS `section`;
+DROP TABLE IF EXISTS `step`;
+DROP TABLE IF EXISTS `tag`;
+DROP TABLE IF EXISTS `tips`;
+DROP TABLE IF EXISTS `user`;
+
+DROP VIEW IF EXISTS `chefparticipation`;
+DROP VIEW IF EXISTS `consecutivecompetitions`;
+DROP VIEW IF EXISTS `cuisineparticipations`;
+DROP VIEW IF EXISTS `judgeparticipation`;
+DROP VIEW IF EXISTS `judgescores`;
+DROP VIEW IF EXISTS `maxparticipation`;
+DROP VIEW IF EXISTS `participationcount`;
+DROP VIEW IF EXISTS `topjudgescores`;
+
 CREATE TABLE `admin` (
  `admin_id` int(11) NOT NULL,
  `user_id` int(11) NOT NULL,
