@@ -7572,10 +7572,19 @@ INSERT INTO `user` (`user_id`, `username`, `password`, `type`) VALUES
 -- --------------------------------------------------------
 
 
---
--- Ευρετήρια για άχρηστους πίνακες
---
-
+CREATE INDEX idx_scoring_recipe_chef_id ON scoring(recipe_chef_id);
+CREATE INDEX idx_recipe_chef_chef_id ON recipe_chef(chef_id);
+CREATE INDEX idx_recipe_chef_recipe_id ON recipe_chef(recipe_id);
+CREATE INDEX idx_recipe_national_cuisine ON recipe(national_cuisine);
+CREATE INDEX idx_chef_specialization ON chef(specialization);
+CREATE INDEX idx_episode_date ON episode(date);
+CREATE INDEX idx_choose_chef_episode_id ON choose_chef(episode_id);
+CREATE INDEX idx_chef_age ON chef(age);
+CREATE INDEX idx_chef_id ON chef(chef_id);
+CREATE INDEX idx_judge_id ON choose_judge(judge_id);
+CREATE INDEX idx_episode_id ON choose_judge(episode_id);
+CREATE INDEX idx_chef_id ON choose_chef(chef_id);
+CREATE INDEX idx_episode_id ON choose_chef(episode_id);
 --
 -- Ευρετήρια για πίνακα `admin`
 --
