@@ -11,7 +11,7 @@ DROP TABLE IF EXISTS `food_category`;
 DROP TABLE IF EXISTS `ingredient`;
 DROP TABLE IF EXISTS `judge`;
 DROP TABLE IF EXISTS `meal_type`;
-DROP TABLE IF EXISTS `nutritionalinfo`;=
+DROP TABLE IF EXISTS `nutritionalinfo`;
 DROP TABLE IF EXISTS `recipe`;
 DROP TABLE IF EXISTS `recipe_chef`;
 DROP TABLE IF EXISTS `recipe_equipment`;
