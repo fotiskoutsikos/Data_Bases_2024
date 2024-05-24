@@ -36,6 +36,10 @@ DROP VIEW IF EXISTS `maxparticipation`;
 DROP VIEW IF EXISTS `participationcount`;
 DROP VIEW IF EXISTS `topjudgescores`;
 
+DROP PROCEDURE IF EXISTS `InsertChefs`;
+DROP PROCEDURE IF EXISTS `InsertJudges`;
+DROP PROCEDURE IF EXISTS `InsertRecipes`;
+
 CREATE TABLE `admin` (
  `admin_id` int(11) NOT NULL,
  `user_id` int(11) NOT NULL,
