@@ -21,6 +21,253 @@ SET time_zone = "+00:00";
 -- Βάση δεδομένων: `mydatabase`
 --
 
+-- --------------------------------------------------------
+-- Στημένη δομή για προβολή `chefparticipation`
+CREATE VIEW ChefParticipation AS (
+    SELECT 
+        cc.chef_id,
+        COUNT(cc.episode_id) AS participation_count
+    FROM 
+        choose_chef cc
+    GROUP BY 
+        cc.chef_id
+);
+--
+-- Στημένη δομή για προβολή `consecutivecompetitions`
+CREATE VIEW ConsecutiveCompetitions AS (
+    SELECT 
+        cp1.national_cuisine,
+        cp1.competition_id AS competition_id1,
+        cp1.participations AS participations1,
+        cp2.competition_id AS competition_id2,
+        cp2.participations AS participations2
+    FROM 
+        CuisineParticipations cp1
+    JOIN 
+        CuisineParticipations cp2 
+    ON 
+        cp1.national_cuisine = cp2.national_cuisine 
+        AND cp1.competition_id + 1 = cp2.competition_id
+);
+--
+-- Στημένη δομή για προβολή `cuisineparticipations`
+CREATE VIEW CuisineParticipations AS (
+    SELECT 
+        r.national_cuisine,
+        e.competition_id,
+        COUNT(*) AS participations
+    FROM 
+        recipe r
+    JOIN 
+        choose_recipe cr ON r.recipe_id = cr.recipe_id
+    JOIN 
+        episode e ON cr.episode_id = e.episode_id
+    GROUP BY 
+        r.national_cuisine, e.competition_id
+);
+--
+-- Στημένη δομή για προβολή `judgeparticipation`
+CREATE VIEW JudgeParticipation AS (
+    SELECT 
+        cj.judge_id,
+        YEAR(e.date) AS year,
+        COUNT(DISTINCT e.episode_id) AS episode_count
+    FROM 
+        choose_judge cj
+    JOIN 
+        episode e ON cj.episode_id = e.episode_id
+    GROUP BY 
+        cj.judge_id, year
+    HAVING 
+        COUNT(DISTINCT e.episode_id) > 3
+);
+--
+-- Στημένη δομή για προβολή `participationcount`
+CREATE VIEW ParticipationCount AS (
+    SELECT 
+        jp.year,
+        jp.episode_count,
+        GROUP_CONCAT(jp.judge_id) AS judges
+    FROM 
+        JudgeParticipation jp
+    GROUP BY 
+        jp.year, jp.episode_count
+    HAVING 
+        COUNT(jp.judge_id) > 1
+);
+-- Στημένη δομή για προβολή `topjudgescores`
+CREATE VIEW TopJudgeScores AS (
+    SELECT 
+        js.judge_id,
+        js.chef_id,
+        js.total_score,
+        ROW_NUMBER() OVER (ORDER BY js.total_score DESC) AS rn
+    FROM 
+        JudgeScores js
+);
+--
+-- Δομή για προβολή `chefparticipation`
+CREATE VIEW ChefParticipation AS (
+    SELECT 
+        cc.chef_id,
+        COUNT(cc.episode_id) AS participation_count
+    FROM 
+        choose_chef cc
+    GROUP BY 
+        cc.chef_id
+);
+--
+DROP TABLE IF EXISTS `chefparticipation`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `chefparticipation`  AS SELECT `cc`.`chef_id` AS `chef_id`, count(`cc`.`episode_id`) AS `participation_count` FROM `choose_chef` AS `cc` GROUP BY `cc`.`chef_id` ;
+
+-- --------------------------------------------------------
+
+--
+-- Δομή για προβολή `consecutivecompetitions`
+CREATE VIEW ConsecutiveCompetitions AS (
+    SELECT 
+        cp1.national_cuisine,
+        cp1.competition_id AS competition_id1,
+        cp1.participations AS participations1,
+        cp2.competition_id AS competition_id2,
+        cp2.participations AS participations2
+    FROM 
+        CuisineParticipations cp1
+    JOIN 
+        CuisineParticipations cp2 
+    ON 
+        cp1.national_cuisine = cp2.national_cuisine 
+        AND cp1.competition_id + 1 = cp2.competition_id
+);
+--
+DROP TABLE IF EXISTS `consecutivecompetitions`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `consecutivecompetitions`  AS   (select `cp1`.`national_cuisine` AS `national_cuisine`,`cp1`.`competition_id` AS `competition_id1`,`cp1`.`participations` AS `participations1`,`cp2`.`competition_id` AS `competition_id2`,`cp2`.`participations` AS `participations2` from (`cuisineparticipations` `cp1` join `cuisineparticipations` `cp2` on(`cp1`.`national_cuisine` = `cp2`.`national_cuisine` and `cp1`.`competition_id` + 1 = `cp2`.`competition_id`)))  ;
+
+-- --------------------------------------------------------
+
+--
+-- Δομή για προβολή `cuisineparticipations`
+CREATE VIEW CuisineParticipations AS (
+    SELECT 
+        r.national_cuisine,
+        e.competition_id,
+        COUNT(*) AS participations
+    FROM 
+        recipe r
+    JOIN 
+        choose_recipe cr ON r.recipe_id = cr.recipe_id
+    JOIN 
+        episode e ON cr.episode_id = e.episode_id
+    GROUP BY 
+        r.national_cuisine, e.competition_id
+);
+--
+DROP TABLE IF EXISTS `cuisineparticipations`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cuisineparticipations`  AS   (select `r`.`national_cuisine` AS `national_cuisine`,`e`.`competition_id` AS `competition_id`,count(0) AS `participations` from ((`recipe` `r` join `choose_recipe` `cr` on(`r`.`recipe_id` = `cr`.`recipe_id`)) join `episode` `e` on(`cr`.`episode_id` = `e`.`episode_id`)) group by `r`.`national_cuisine`,`e`.`competition_id`)  ;
+
+-- --------------------------------------------------------
+
+--
+-- Δομή για προβολή `judgeparticipation`
+CREATE VIEW JudgeParticipation AS (
+    SELECT 
+        cj.judge_id,
+        YEAR(e.date) AS year,
+        COUNT(DISTINCT e.episode_id) AS episode_count
+    FROM 
+        choose_judge cj
+    JOIN 
+        episode e ON cj.episode_id = e.episode_id
+    GROUP BY 
+        cj.judge_id, year
+    HAVING 
+        COUNT(DISTINCT e.episode_id) > 3
+);
+--
+DROP TABLE IF EXISTS `judgeparticipation`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `judgeparticipation`  AS   (select `cj`.`judge_id` AS `judge_id`,year(`e`.`date`) AS `year`,count(distinct `e`.`episode_id`) AS `episode_count` from (`choose_judge` `cj` join `episode` `e` on(`cj`.`episode_id` = `e`.`episode_id`)) group by `cj`.`judge_id`,year(`e`.`date`) having count(distinct `e`.`episode_id`) > 3)  ;
+
+-- --------------------------------------------------------
+
+--
+-- Δομή για προβολή `judgescores`
+CREATE VIEW JudgeScores AS (
+    SELECT 
+        sc.judge_id,
+        rc.chef_id,
+        SUM(sc.score) AS total_score
+    FROM 
+        scoring sc
+    JOIN 
+        recipe_chef rc ON sc.recipe_chef_id = rc.recipe_chef_id
+    GROUP BY 
+        sc.judge_id, rc.chef_id
+);
+--
+DROP TABLE IF EXISTS `judgescores`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `judgescores`  AS   (select `sc`.`judge_id` AS `judge_id`,`rc`.`chef_id` AS `chef_id`,sum(`sc`.`score`) AS `total_score` from (`scoring` `sc` join `recipe_chef` `rc` on(`sc`.`recipe_chef_id` = `rc`.`recipe_chef_id`)) group by `sc`.`judge_id`,`rc`.`chef_id`)  ;
+
+-- --------------------------------------------------------
+
+--
+-- Δομή για προβολή `maxparticipation`
+CREATE VIEW MaxParticipation AS (
+    SELECT 
+        MAX(participation_count) AS max_participation
+    FROM 
+        ChefParticipation
+);
+--
+DROP TABLE IF EXISTS `maxparticipation`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `maxparticipation`  AS SELECT max(`chefparticipation`.`participation_count`) AS `max_participation` FROM `chefparticipation` ;
+
+-- --------------------------------------------------------
+
+--
+-- Δομή για προβολή `participationcount`
+CREATE VIEW ParticipationCount AS (
+    SELECT 
+        jp.year,
+        jp.episode_count,
+        GROUP_CONCAT(jp.judge_id) AS judges
+    FROM 
+        JudgeParticipation jp
+    GROUP BY 
+        jp.year, jp.episode_count
+    HAVING 
+        COUNT(jp.judge_id) > 1
+);
+--
+DROP TABLE IF EXISTS `participationcount`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `participationcount`  AS   (select `jp`.`year` AS `year`,`jp`.`episode_count` AS `episode_count`,group_concat(`jp`.`judge_id` separator ',') AS `judges` from `judgeparticipation` `jp` group by `jp`.`year`,`jp`.`episode_count` having count(`jp`.`judge_id`) > 1)  ;
+
+-- --------------------------------------------------------
+
+--
+-- Δομή για προβολή `topjudgescores`
+CREATE VIEW TopJudgeScores AS (
+    SELECT 
+        js.judge_id,
+        js.chef_id,
+        js.total_score,
+        ROW_NUMBER() OVER (ORDER BY js.total_score DESC) AS rn
+    FROM 
+        JudgeScores js
+);
+--
+DROP TABLE IF EXISTS `topjudgescores`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `topjudgescores`  AS   (select `js`.`judge_id` AS `judge_id`,`js`.`chef_id` AS `chef_id`,`js`.`total_score` AS `total_score`,row_number() over ( order by `js`.`total_score` desc) AS `rn` from `judgescores` `js`)  ;
+
+
+
 
 
 INSERT INTO `admin` (`admin_id`, `user_id`) VALUES
