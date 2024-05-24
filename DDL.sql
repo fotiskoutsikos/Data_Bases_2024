@@ -451,7 +451,7 @@ CREATE VIEW TopJudgeScores AS (
 );
 --
 -- Δομή για προβολή `chefparticipation`
-CREATE TABLE ChefParticipation AS (
+CREATE VIEW ChefParticipation AS (
     SELECT 
         cc.chef_id,
         COUNT(cc.episode_id) AS participation_count
